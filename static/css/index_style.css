@@ -132,7 +132,6 @@ textarea {
     outline: none;
     cursor: pointer;
 }
-
 .checkbox-round:checked {
     background-color: #b8cc52d1;
 }
