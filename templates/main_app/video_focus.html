@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends 'main_app/index.html' %}
+{% load static %}
+{% block body_block %}
+    <br>
+    {% if video.display_name %}
+    <h5>{{ video.display_name }}</h5>
+    {% else %}
+    <h5>{{ video.name }}</h5>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div id="video-container" class="col-lg-7">
+                <video width="640" height="480" controls autoplay>
+                    {% with 'videos/'|add:video.name as video_url %}
+                        <source src="{% static video_url %}" type="video/mp4">
+                    {% endwith %}
+                </video>
+            </div>
+            <div id="details-container" class="col-lg-5">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <form method="POST">
+                                {{ form_one.as_p }}
+                                {% csrf_token %}
+                                <div id="submit-container" class="row">
+                                    <div class="col">
+                                        <input id="submit" type="submit" class="btn btn-dark" value="Submit">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+
+                        <hr class="my-4">
+                        {% load my_extras %}
+                        <p>
+                            {% if video.notes %}
+                            {{ video.notes|display_notes }}
+                            {% endif %}
+                        </p>
+
+                        <hr class="my-4">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a id = "delete" class="btn btn-danger" href="/videos/delete/{{video.id}}" role="button">Delete</a>
+                    </div>
+                    <div class="col">
+                        <a id="back" class="btn btn-dark" href="{% url 'index' %}" role="button">Back</a>
+                    </div>
+                </div>
+                <br>
+            </div>
+         </div>
+    </div>
+{% endblock %}
