@@ -23,5 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('encoder/',views.encoder,name='encoder'),
     path('videos/',include('main_app.urls')),
-    path('favourites/', views.favourites, name='favourites')
+    path('favourites/', views.favourites, name='favourites'),
+    path('themes/', views.themes, name='themes'),
+    path('harmony/', views.harmony, name='harmony'),
+    path('songs/', views.songs, name='songs'),
+    path('other/', views.other, name='other')
 ]

@@ -6,11 +6,13 @@ from os import listdir
 from os.path import isfile,join
 
 from main_app.models import Video
+from main_app.models import Category
 from main_app import forms
 
 from main_app.tasks import encode_video
 
 # Create your views here.
+
 def index(request):
     videos = Video.objects.all()
     videos_dict = {'videos': videos}
@@ -34,6 +36,29 @@ def favourites(request):
     videos_dict = {'videos': videos}
     return render(request,"main_app/index.html", context=videos_dict)
 
+def themes(request):
+    category = Category.objects.get(name="Theme")
+    videos = Video.objects.filter(category=category.id)
+    videos_dict = {'videos': videos}
+    return render(request,"main_app/index.html", context=videos_dict)
+
+def harmony(request):
+    category = Category.objects.get(name="Harmony")
+    videos = Video.objects.filter(category=category.id)
+    videos_dict = {'videos': videos}
+    return render(request,"main_app/index.html", context=videos_dict)
+
+def songs(request):
+    category = Category.objects.get(name="Song")
+    videos = Video.objects.filter(category=category.id)
+    videos_dict = {'videos': videos}
+    return render(request,"main_app/index.html", context=videos_dict)
+
+def other(request):
+    category = Category.objects.get(name="other")
+    videos = Video.objects.filter(category=category.id)
+    videos_dict = {'videos': videos}
+    return render(request,"main_app/index.html", context=videos_dict)
 
 def encoder(request):
     home = str(Path.home())

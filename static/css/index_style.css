@@ -32,7 +32,7 @@ a:visited:hover {
     color: #d5ff00d1;
 }
 .nav-item {
-    margin-left:40px;
+    margin-left:30px;
 }
 /* pushing the encode button to the right */
 .last li:last-child {
