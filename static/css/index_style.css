@@ -1,102 +1,127 @@
 html {
     height: 100%;
 }
+
 body {
     background-color: #1f1f1f;
     height: 100%;
     margin: 0;
 }
+
 h5 {
     color: #b8cc52d1;
 }
+
 p {
     color: #ffa500c9;
 }
+
 li {
     color: white;
 }
+
 video {
     border: 1px solid black;
     border-radius: 3px;
 }
+
 a {
     color: #86863e;
 }
+
 a:hover {
     color: #b8cc52d1;
 }
+
 a:visited {
-  color: orange;
+    color: orange;
 }
+
 a:visited:hover {
     color: #d5ff00d1;
 }
+
 .nav-item {
-    margin-left:30px;
+    margin-left: 30px;
 }
+
 /* pushing the encode button to the right */
 .last li:last-child {
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
 }
+
 /* change the background color */
 .navbar-custom {
     background-color: #345955db;
     border-radius: 2px;
     overflow: hidden;
 }
+
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
     color: #d5ff00d1;
 }
+
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
     color: #b8cc52d1;
 }
+
 .footer {
     background-color: #345955db;
     border-radius: 2px;
     color: #b8cc52d1;
 }
+
 .navbar-toggler {
     background-color: #d5ff00d1;
 }
+
 #t-area {
-    background:black;
+    background: black;
     color: #b8cc52d1;
 }
+
 #submit, #back {
     float: right;
 }
+
 #submit-container {
     margin-top: -30px;
 }
+
 #video-container {
     padding-left: 0;
 }
+
 #details-container {
     padding-right: 0;
 }
+
 /* float & allow room for the widest item */
-ol li
-{
-float: left;
-width: 25%;
+ol li {
+    float: left;
+    width: 25%;
 }
+
 /* stop the float */
 #list_br {
     clear: left;
 }
+
 /* separate the list from subsequent markup */
 .wrapper {
     margin-bottom: 1em;
 }
+
 .footer {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
 .footer p {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -105,22 +130,28 @@ width: 25%;
 #submit {
     color: orange;
 }
+
 #submit:hover {
     color: #d5ff00d1;
 }
+
 .my-4 {
     background: orange;
 }
+
 textarea {
     color: orange;
 }
+
 .form-group select {
     background: black;
     color: #b8cc52d1;
 }
+
 #delete {
     color: white;
 }
+
 .checkbox-round {
     width: 1.3em;
     height: 1.3em;
@@ -132,12 +163,15 @@ textarea {
     outline: none;
     cursor: pointer;
 }
+
 .checkbox-round:checked {
     background-color: #b8cc52d1;
 }
+
 .form-group select {
     padding: 5px;
 }
+
 .favorite-sketch, .favorite-sketch:visited {
     color: #21bdccfc;
 }

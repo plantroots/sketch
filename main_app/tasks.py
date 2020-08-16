@@ -1,18 +1,18 @@
+import json
 import os
 import subprocess
+from math import log2, pow
 from pathlib import Path
 
-from sketch_web.celery import app
-from main_app.models import Video
-
 import pandas as pd
-import json
-from math import log2, pow
+from main_app.models import Video
+from sketch_web.celery import app
 
 # Pitch Formula
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 name = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 
 def pitch(freq):
     h = round(12 * log2(freq / C0))
@@ -23,7 +23,6 @@ def pitch(freq):
 
 @app.task
 def encode_video(original_name):
-
     home = str(Path.home())
     originals_path = os.path.join(home, "Videos", "Webcam", "")
     originals_final_path = os.path.join(home, "Videos", "Webcam", "Originals", "")
@@ -32,7 +31,6 @@ def encode_video(original_name):
     csv_path = os.path.join(home, "PycharmProjects", "Sketch", "sketch_web", "data", "csvs", "")
     csv_final_path = os.path.join(home, "PycharmProjects", "Sketch", "sketch_web", "data", "csvs", "Originals", "")
     final_destination = os.path.join(home, 'PycharmProjects', 'Sketch', 'sketch_web', 'static', 'videos', '')
-
 
     file_name = original_name.split('.')[0]
 
@@ -68,7 +66,9 @@ def encode_video(original_name):
     video = Video.objects.get_or_create(name=encoded_file_name)
 
     # WAW Extraction
-    subprocess.call(f"ffmpeg -i {encoded_path}{encoded_file_name} -acodec pcm_s16le -ar 128k -vn {audio_path}{wav_file_name}", shell=True)
+    subprocess.call(
+        f"ffmpeg -i {encoded_path}{encoded_file_name} -acodec pcm_s16le -ar 128k -vn {audio_path}{wav_file_name}",
+        shell=True)
 
     # Moving encoded videos to final destination (app folder)
     os.rename(f"{encoded_path}{encoded_file_name}", f"{final_destination}{encoded_file_name}")
@@ -96,7 +96,3 @@ def encode_video(original_name):
 
     # moving csvs to final destination
     os.rename(f"{csv_path}{csv_file_name}", f"{csv_final_path}{csv_file_name}")
-
-
-
-

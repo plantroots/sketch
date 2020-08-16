@@ -4,9 +4,9 @@
 {% block body_block %}
     <br>
     {% if video.display_name %}
-    <h5>{{ video.display_name }}</h5>
+        <h5>{{ video.display_name }}</h5>
     {% else %}
-    <h5>{{ video.name }}</h5>
+        <h5>{{ video.name }}</h5>
     {% endif %}
     <div class="container">
         <div class="row">
@@ -40,7 +40,7 @@
                         {% load my_extras %}
                         <p>
                             {% if video.notes %}
-                            {{ video.notes|display_notes }}
+                                {{ video.notes|display_notes }}
                             {% endif %}
                         </p>
                         <hr class="my-4">
@@ -48,7 +48,8 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a id = "delete" class="btn btn-danger" href="/videos/delete/{{video.id}}" role="button">Delete</a>
+                        <a id="delete" class="btn btn-danger" href="/videos/delete/{{ video.id }}"
+                           role="button">Delete</a>
                     </div>
                     <div class="col">
                         <a id="back" class="btn btn-dark" href="{% url 'index' %}" role="button">Back</a>
@@ -56,6 +57,6 @@
                 </div>
                 <br>
             </div>
-         </div>
+        </div>
     </div>
 {% endblock %}
