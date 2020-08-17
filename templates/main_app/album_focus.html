@@ -1,2 +1,14 @@
 {% extends 'main_app/index.html' %}
 {% load static %}
+{% block body_block %}
+
+    <br>
+    {% if songs %}
+        <ol>
+            {% for song in songs %}
+                <li>{{ song.filename }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+{% endblock %}

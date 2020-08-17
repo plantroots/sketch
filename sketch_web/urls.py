@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('encoder/', views.encoder, name='encoder'),
     path('videos/', include('main_app.urls')),
+    path('albums/<int:id>', views.album_focus, name='album_focus'),
     path('favourites/', views.favourites, name='favourites'),
     path('themes/', views.themes, name='themes'),
     path('harmony/', views.harmony, name='harmony'),

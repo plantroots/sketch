@@ -43,11 +43,11 @@
                         Albums
                     </a>
                     {% if albums %}
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        {% for album in albums %}
-                        <a class="dropdown-item" href="#">{{ album.name }}</a>
-                        {% endfor %}
-                    </div>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            {% for album in albums %}
+                            <a class="dropdown-item" href="{{ root_url }}/albums/{{ album.id }}">{{ album.name }}</a>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </li>
                 <li class="nav-item">

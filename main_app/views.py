@@ -5,7 +5,7 @@ from pathlib import Path
 
 from django.shortcuts import render, redirect
 from main_app import forms
-from main_app.models import Category, Video, Album
+from main_app.models import Category, Video, Album, Song
 from main_app.tasks import encode_video
 from main_app.tasks import scan
 from sketch_web.settings import STATIC_DIR
@@ -22,6 +22,7 @@ def index(request):
 
 def video_focus(request, id):
     video = Video.objects.get(id=id)
+    albums = Album.objects.order_by('year').all()
     form_one = forms.CommentForm(instance=video)
 
     if request.method == "POST":
@@ -30,7 +31,7 @@ def video_focus(request, id):
             form_one.save(commit=True)
         else:
             print("Error! Form invalid!")
-    return render(request, 'main_app/video_focus.html', {'form_one': form_one, 'video': video})
+    return render(request, 'main_app/video_focus.html', {'form_one': form_one, 'video': video, 'albums':albums})
 
 
 def favourites(request):
@@ -93,6 +94,7 @@ def delete_video(request, id):
     Video.objects.filter(id=id).delete()
     return redirect('/')
 
+
 def album_scan(request):
     mypath = os.path.join(STATIC_DIR, "sounds", "")
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
@@ -100,3 +102,9 @@ def album_scan(request):
     for f in onlyfiles:
         scan.delay(f)
     return redirect('/')
+
+
+def album_focus(request, id):
+    albums = Album.objects.order_by('year').all()
+    songs_obj = Song.objects.filter(id=id).order_by('filename')
+    return render(request, 'main_app/album_focus.html', context={'songs': songs_obj, 'albums':albums})
