@@ -27,5 +27,6 @@ urlpatterns = [
     path('themes/', views.themes, name='themes'),
     path('harmony/', views.harmony, name='harmony'),
     path('songs/', views.songs, name='songs'),
-    path('other/', views.other, name='other')
+    path('other/', views.other, name='other'),
+    path('album_scan/', views.album_scan, name='album_scan')
 ]

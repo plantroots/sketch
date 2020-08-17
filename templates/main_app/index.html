@@ -10,6 +10,7 @@
 </head>
 <body>
 
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-custom navbar-light" id="nav_radius">
@@ -21,9 +22,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto last">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">All videos</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'favourites' %}">Favourites</a>
                 </li>
@@ -37,18 +35,33 @@
                     <a class="nav-link" href="{% url 'songs' %}">Songs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'other' %}">other</a>
+                    <a class="nav-link" href="{% url 'other' %}">Other</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Albums
+                    </a>
+                    {% if albums %}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% for album in albums %}
+                        <a class="dropdown-item" href="#">{{ album.name }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" target="_blank" rel="noopener noreferrer"
                        href="{% url 'admin:index' %}">Admin</a>
                 </li>
                 <li class="nav-item">
+                    <a id="scan-btn" class="btn btn-dark" href="{% url 'album_scan' %}" role="button">Scan Album</a>
                     <a class="btn btn-dark" href="{% url 'encoder' %}" role="button">Encode new batch</a>
                 </li>
             </ul>
         </div>
     </nav>
+
 
     {% block body_block %}
 

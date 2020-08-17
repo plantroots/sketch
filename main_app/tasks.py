@@ -1,12 +1,16 @@
 import json
 import os
 import subprocess
+from collections import Counter
 from math import log2, pow
 from pathlib import Path
 
+import librosa
 import pandas as pd
+from main_app.models import Song
 from main_app.models import Video
 from sketch_web.celery import app
+from sketch_web.settings import STATIC_DIR
 
 # Pitch Formula
 A4 = 440
@@ -96,3 +100,49 @@ def encode_video(original_name):
 
     # moving csvs to final destination
     os.rename(f"{csv_path}{csv_file_name}", f"{csv_final_path}{csv_file_name}")
+
+
+@app.task
+def scan(f):
+    mypath = os.path.join(STATIC_DIR, "sounds", "")
+    originals_path = os.path.join(STATIC_DIR, "sounds", "originals", "")
+
+    def remove_num(my_string):
+        for char in my_string:
+            if char in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                new_str = my_string.replace(char, "")
+                return new_str
+
+    def percentages(value):
+        return value / len(all_the_notes) * 100
+
+    data = []
+
+    y, sr = librosa.load(f"{mypath + f}")
+
+    # Tempo tracking
+    tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
+    print('Estimated tempo: {:.2f} beats per minute'.format(tempo))
+
+    # Fundamental Frequency Estimation
+    fundamentals = librosa.yin(y=y, fmin=60, fmax=20000)
+    fundamental_notes = []
+
+    for freq in fundamentals:
+        fundamental_notes.append(librosa.hz_to_note(freq))
+
+    all_the_notes = list(map(remove_num, fundamental_notes))
+    d1 = Counter(all_the_notes)
+
+    # Calculating Percentages
+    d2 = dict((k, round(percentages(v), 2)) for k, v in d1.items())
+    notes_ls = sorted(d2.items(), key=lambda x: x[1], reverse=True)
+
+    # Registering the final data
+    Song.objects.get_or_create(filename=f, duration=round(librosa.get_duration(y)),
+                               tempo=round(tempo, 2),
+                               notes=json.dumps(notes_ls[:3])
+                               )
+
+    # Moving songs to 'originals' folder
+    os.rename(f"{mypath}{f}", f"{originals_path}{f}")

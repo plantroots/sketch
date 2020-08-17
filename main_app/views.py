@@ -5,17 +5,19 @@ from pathlib import Path
 
 from django.shortcuts import render, redirect
 from main_app import forms
-from main_app.models import Category
-from main_app.models import Video
+from main_app.models import Category, Video, Album
 from main_app.tasks import encode_video
+from main_app.tasks import scan
+from sketch_web.settings import STATIC_DIR
 
 
 # Create your views here.
 
 def index(request):
     videos = Video.objects.all()
-    videos_dict = {'videos': videos}
-    return render(request, "main_app/index.html", context=videos_dict)
+    albums = Album.objects.order_by('year').all()
+    my_dict = {'videos': videos, 'albums': albums}
+    return render(request, "main_app/index.html", context=my_dict)
 
 
 def video_focus(request, id):
@@ -89,4 +91,12 @@ def delete_video(request, id):
 
     # deleting from DB
     Video.objects.filter(id=id).delete()
+    return redirect('/')
+
+def album_scan(request):
+    mypath = os.path.join(STATIC_DIR, "sounds", "")
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+
+    for f in onlyfiles:
+        scan.delay(f)
     return redirect('/')
