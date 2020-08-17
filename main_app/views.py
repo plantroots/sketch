@@ -31,7 +31,7 @@ def video_focus(request, id):
             form_one.save(commit=True)
         else:
             print("Error! Form invalid!")
-    return render(request, 'main_app/video_focus.html', {'form_one': form_one, 'video': video, 'albums':albums})
+    return render(request, 'main_app/video_focus.html', {'form_one': form_one, 'video': video, 'albums': albums})
 
 
 def favourites(request):
@@ -106,5 +106,7 @@ def album_scan(request):
 
 def album_focus(request, id):
     albums = Album.objects.order_by('year').all()
-    songs_obj = Song.objects.filter(id=id).order_by('filename')
-    return render(request, 'main_app/album_focus.html', context={'songs': songs_obj, 'albums':albums})
+    album = Album.objects.filter(id=id).get()
+    song_objects = Song.objects.filter(album_id=id).order_by('filename').all()
+    return render(request, 'main_app/album_focus.html',
+                  context={'songs': song_objects,'album': album, 'albums': albums})

@@ -3,12 +3,18 @@
 {% block body_block %}
 
     <br>
+
     {% if songs %}
-        <ol>
+
+        <div id="album-container" class="container">
+        <h5>{{ album.name }}</h5>
+        <ul>
             {% for song in songs %}
                 <li>{{ song.filename }}</li>
             {% endfor %}
-        </ol>
+        </ul>
+        </div>
+
     {% endif %}
 
 {% endblock %}

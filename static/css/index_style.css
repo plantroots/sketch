@@ -190,3 +190,8 @@ textarea {
 #scan-btn {
     margin-right: 10px;
 }
+
+#album-container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
