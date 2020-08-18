@@ -134,15 +134,18 @@ def scan(f):
     all_the_notes = list(map(remove_num, fundamental_notes))
     d1 = Counter(all_the_notes)
 
-    # Calculating Percentages
+    # Calculating Percentages and Sorting
     d2 = dict((k, round(percentages(v), 2)) for k, v in d1.items())
     notes_ls = sorted(d2.items(), key=lambda x: x[1], reverse=True)
 
+    # Removing musical sharp sign to avoid DB storing problems
+    new_ls = []
+    for (a, b) in notes_ls:
+        new_ls.append((a.replace("♯", "#"), b))
+
     # Registering the final data
     Song.objects.get_or_create(filename=f, duration=round(librosa.get_duration(y)),
-                               tempo=round(tempo, 2),
-                               notes=json.dumps(notes_ls[:3])
-                               )
+                               tempo=round(tempo, 2), notes=json.dumps(new_ls[:3]))
 
     # Moving songs to 'originals' folder
     os.rename(f"{mypath}{f}", f"{originals_path}{f}")

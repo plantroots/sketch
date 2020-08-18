@@ -1,8 +1,22 @@
 import json
+from datetime import timedelta
 
 from django import template
 
 register = template.Library()
+
+
+@register.filter(name="get_min")
+def get_min(value):
+    conversion = timedelta(seconds=value)
+    return str(conversion)[2:]
+
+
+@register.filter(name="display_album_name")
+def display_album_name(value):
+    value = value[:-4]
+    result = ''.join([i for i in value if not i.isdigit() and i != '.'])
+    return result[17:]
 
 
 @register.filter(name="display_video_name")

@@ -194,4 +194,16 @@ textarea {
 #album-container {
     padding-left: 0px;
     padding-right: 0px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+ul {
+    list-style-type: none;
+}
+#span-song-one {
+    color: orange;
+}
+
+img {
+    border-radius: 15%;
 }

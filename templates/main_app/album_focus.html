@@ -7,12 +7,21 @@
     {% if songs %}
 
         <div id="album-container" class="container">
-        <h5>{{ album.name }}</h5>
-        <ul>
-            {% for song in songs %}
-                <li>{{ song.filename }}</li>
-            {% endfor %}
-        </ul>
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>{{ album.name }} - ({{ album.year }})</h5>
+                    <ul>
+                        {% for song in songs %}
+                            {% load my_extras %}
+                            <li>{{ song.filename|display_album_name }} <span id="span-song-one">--> {{ song.tempo|floatformat:"0" }} bpm --> {{ song.duration|get_min }} {{ song.notes }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <img src="{{ root_url }}/{{ album.cover }}" alt={{ album.name }} width="300" height="300">
+                </div>
+            </div>
         </div>
 
     {% endif %}

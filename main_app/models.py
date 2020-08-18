@@ -26,8 +26,6 @@ class Video(models.Model):
 class Album(models.Model):
     name = models.CharField(max_length=255, blank=True)
     year = models.IntegerField(null=True, blank=True)
-    length = models.FloatField(null=True, blank=True)
-    my_age = models.IntegerField(null=True, blank=True)
     cover = models.ImageField(upload_to='static/images/covers/', blank=True)
 
     def __str__(self):
@@ -40,6 +38,7 @@ class Song(models.Model):
     duration = models.FloatField()
     tempo = models.FloatField()
     notes = models.CharField(max_length=255)
+    order = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return str(self.filename)
