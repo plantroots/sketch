@@ -28,6 +28,7 @@ class Album(models.Model):
     year = models.IntegerField(null=True, blank=True)
     length = models.FloatField(null=True, blank=True)
     my_age = models.IntegerField(null=True, blank=True)
+    cover = models.ImageField(upload_to='static/images/covers/', blank=True)
 
     def __str__(self):
         return str(self.name)
