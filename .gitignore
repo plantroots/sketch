@@ -3,3 +3,5 @@ static/videos/
 static/sounds
 __pycache__/
 /static/images/covers/
+
+/test_stuff.py
