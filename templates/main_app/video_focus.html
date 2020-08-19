@@ -1,5 +1,6 @@
 {% extends 'main_app/index.html' %}
 {% load static %}
+{% load my_extras %}
 {% block body_block %}
     <br>
     {% if video.display_name %}
@@ -36,7 +37,6 @@
                     <div class="col">
 
                         <hr class="my-4">
-                        {% load my_extras %}
                         <p>
                             {% if video.notes %}
                                 {{ video.notes|display_notes }}

@@ -204,6 +204,10 @@ ul {
     color: orange;
 }
 
+#span-song-two {
+    color: #b8cc52d1;
+}
+
 img {
-    border-radius: 15%;
+    border-radius: 10%;
 }

@@ -1,5 +1,6 @@
 {% extends 'main_app/index.html' %}
 {% load static %}
+{% load my_extras %}
 {% block body_block %}
 
     <br>
@@ -12,8 +13,8 @@
                     <h5>{{ album.name }} - ({{ album.year }})</h5>
                     <ul>
                         {% for song in songs %}
-                            {% load my_extras %}
-                            <li>{{ song.filename|display_album_name }} <span id="span-song-one">--> {{ song.tempo|floatformat:"0" }} bpm --> {{ song.duration|get_min }} {{ song.notes }}</span>
+
+                            <li>{{ song.filename|display_album_name }} <span id="span-song-one">--> {{ song.tempo|floatformat:"0" }} bpm --> {{ song.duration|get_min }}</span> <span id="span-song-two"> --> {{ song.notes|display_notes_song }}</span>
                             </li>
                         {% endfor %}
                     </ul>

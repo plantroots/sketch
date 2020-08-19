@@ -46,3 +46,10 @@ def display_notes(value):
     string = my_str.replace("(", "-> ")
     string = string.replace("'", "")
     return string
+
+
+@register.filter(name='display_notes_song')
+def display_notes_song(value):
+    output = ''.join([str(i) for i in value if i not in ["[", "]", "\""]])
+    output = output.replace(",", " -->")
+    return output

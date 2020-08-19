@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load my_extras %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -75,7 +76,6 @@
                         <li>
                             <a class="{% if v.favorite %}favorite-sketch{% endif %}"
                                href="{{ root_url }}/videos/{{ v.id }}">
-                                {% load my_extras %}
                                 {{ v|display_video_name }}
                             </a>
                         </li>
