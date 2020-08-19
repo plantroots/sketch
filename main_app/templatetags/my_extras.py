@@ -38,14 +38,9 @@ def display_notes(value):
         my_str += "-> " + str(k) + ": " + str(int(v * 100)) + "%" + " "
 
     my_str = my_str.replace(")", "% ")
-
-    string = ''
-    for ch in ['(', ')']:
-        if ch in my_str:
-            string = my_str.replace(ch, "")
-    string = my_str.replace("(", "-> ")
-    string = string.replace("'", "")
-    return string
+    my_str = my_str.replace("(", "-> ")
+    my_str = my_str.replace("'", "")
+    return my_str
 
 
 @register.filter(name='display_notes_song')

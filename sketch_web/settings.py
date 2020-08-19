@@ -11,11 +11,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
+
+# Extra
+home = str(Path.home())
+AUDIO_DIR = os.path.join(BASE_DIR, "data", "csvs")
+VIDEO_DIR = os.path.join(home, "Videos", "Webcam")
 
 
 # Quick-start development settings - unsuitable for production

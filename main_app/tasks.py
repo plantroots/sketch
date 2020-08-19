@@ -3,16 +3,17 @@ import os
 import subprocess
 from collections import Counter
 from math import log2, pow
-from pathlib import Path
 
 import librosa
 import pandas as pd
 from main_app.models import Song
 from main_app.models import Video
 from sketch_web.celery import app
-from sketch_web.settings import STATIC_DIR
+from sketch_web.settings import STATIC_DIR, AUDIO_DIR, VIDEO_DIR
 
 # Pitch Formula
+
+
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 name = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
@@ -27,14 +28,19 @@ def pitch(freq):
 
 @app.task
 def encode_video(original_name):
-    home = str(Path.home())
-    originals_path = os.path.join(home, "Videos", "Webcam", "")
-    originals_final_path = os.path.join(home, "Videos", "Webcam", "Originals", "")
-    encoded_path = os.path.join(home, "Videos", "Webcam", "Encoded", "")
-    audio_path = os.path.join(home, "PycharmProjects", "Sketch", "sketch_web", "data", "csvs", "")
-    csv_path = os.path.join(home, "PycharmProjects", "Sketch", "sketch_web", "data", "csvs", "")
-    csv_final_path = os.path.join(home, "PycharmProjects", "Sketch", "sketch_web", "data", "csvs", "Originals", "")
-    final_destination = os.path.join(home, 'PycharmProjects', 'Sketch', 'sketch_web', 'static', 'videos', '')
+    video_input = VIDEO_DIR
+    audio_input = AUDIO_DIR
+
+    # video paths
+    originals_path = os.path.join(video_input, "")
+    originals_final_path = os.path.join(video_input, "Originals", "")
+    encoded_path = os.path.join(video_input, "Encoded", "")
+    final_destination = os.path.join(STATIC_DIR, 'videos', '')
+
+    # audio paths
+    audio_path = os.path.join(audio_input, "")
+    csv_path = os.path.join(audio_input, "")
+    csv_final_path = os.path.join(audio_input, "Originals", "")
 
     file_name = original_name.split('.')[0]
 
@@ -67,7 +73,7 @@ def encode_video(original_name):
     wav_file_name = file_name + '.wav'
 
     # REGISTER FILE NAMES
-    video = Video.objects.get_or_create(name=encoded_file_name)
+    Video.objects.get_or_create(name=encoded_file_name)
 
     # WAW Extraction
     subprocess.call(
@@ -115,8 +121,6 @@ def scan(f):
 
     def percentages(value):
         return value / len(all_the_notes) * 100
-
-    data = []
 
     y, sr = librosa.load(f"{mypath + f}")
 
