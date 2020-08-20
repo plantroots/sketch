@@ -11,9 +11,8 @@ from main_app.models import Video
 from sketch_web.celery import app
 from sketch_web.settings import STATIC_DIR, AUDIO_DIR, VIDEO_DIR
 
+
 # Pitch Formula
-
-
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 name = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
