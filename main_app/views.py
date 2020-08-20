@@ -10,66 +10,32 @@ from main_app.tasks import scan
 from sketch_web.settings import STATIC_DIR, AUDIO_DIR, VIDEO_DIR
 
 
-# Create your views here.
-
 def index(request):
     videos = Video.objects.all()
     albums = Album.objects.order_by('year').all()
-    my_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=my_dict)
+    context = {'videos': videos, 'albums': albums}
+    return render(request, "main_app/index.html", context=context)
 
 
 def video_focus(request, id):
     video = Video.objects.get(id=id)
     albums = Album.objects.order_by('year').all()
-    form_one = forms.CommentForm(instance=video)
+    form = forms.CommentForm(instance=video)
 
     if request.method == "POST":
-        form_one = forms.CommentForm(request.POST, instance=video)
-        if form_one.is_valid():
-            form_one.save(commit=True)
+        form = forms.CommentForm(request.POST, instance=video)
+        if form.is_valid():
+            form.save(commit=True)
         else:
             print("Error! Form invalid!")
-    return render(request, 'main_app/video_focus.html', {'form_one': form_one, 'video': video, 'albums': albums})
+    return render(request, 'main_app/video_focus.html', {'form_one': form, 'video': video, 'albums': albums})
 
 
 def favourites(request):
     videos = Video.objects.filter(favorite=True)
     albums = Album.objects.order_by('year').all()
-    videos_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=videos_dict)
-
-
-def themes(request):
-    category = Category.objects.get(name="Theme")
-    videos = Video.objects.filter(category=category.id)
-    albums = Album.objects.order_by('year').all()
-    videos_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=videos_dict)
-
-
-def harmony(request):
-    category = Category.objects.get(name="Harmony")
-    videos = Video.objects.filter(category=category.id)
-    albums = Album.objects.order_by('year').all()
-    videos_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=videos_dict)
-
-
-def songs(request):
-    category = Category.objects.get(name="Song")
-    videos = Video.objects.filter(category=category.id)
-    albums = Album.objects.order_by('year').all()
-    videos_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=videos_dict)
-
-
-def other(request):
-    category = Category.objects.get(name="other")
-    videos = Video.objects.filter(category=category.id)
-    albums = Album.objects.order_by('year').all()
-    videos_dict = {'videos': videos, 'albums': albums}
-    return render(request, "main_app/index.html", context=videos_dict)
+    context = {'videos': videos, 'albums': albums}
+    return render(request, "main_app/index.html", context=context)
 
 
 def encoder(request):
@@ -82,15 +48,15 @@ def encoder(request):
 
 def delete_video(request, id):
     video = Video.objects.get(id=id)
-    final_destination = os.path.join(STATIC_DIR, 'videos', '')
+    video_path = os.path.join(STATIC_DIR, 'videos', '')
 
     # deleting mp4
-    os.remove(f"{final_destination}{video.name}")
+    os.remove(f"{video_path}{video.name}")
 
-    csv_final_path = os.path.join(AUDIO_DIR, "Originals", "")
+    csv_path = os.path.join(AUDIO_DIR, "Originals", "")
 
     # deleting csv
-    os.remove(f"{csv_final_path}{video.name.split('_final')[0] + '.f0.csv'}")
+    os.remove(f"{csv_path}{video.name.split('_final')[0] + '.f0.csv'}")
 
     # deleting from DB
     Video.objects.filter(id=id).delete()
@@ -98,8 +64,8 @@ def delete_video(request, id):
 
 
 def album_scan(request):
-    mypath = os.path.join(STATIC_DIR, "sounds", "")
-    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    album_path = os.path.join(STATIC_DIR, "sounds", "")
+    onlyfiles = [f for f in listdir(album_path) if isfile(join(album_path, f))]
 
     for f in onlyfiles:
         scan.delay(f)
@@ -112,3 +78,27 @@ def album_focus(request, id):
     song_objects = Song.objects.filter(album_id=id).order_by('order').all()
     return render(request, 'main_app/album_focus.html',
                   context={'songs': song_objects, 'album': album, 'albums': albums})
+
+
+def category_view(request, name):
+    category = Category.objects.get(name=name)
+    videos = Video.objects.filter(category=category.id)
+    albums = Album.objects.order_by('year').all()
+    context = {'videos': videos, 'albums': albums}
+    return render(request, "main_app/index.html", context=context)
+
+
+def themes(request):
+    return category_view(request, "Theme")
+
+
+def harmony(request):
+    return category_view(request, "Harmony")
+
+
+def songs(request):
+    return category_view(request, "Song")
+
+
+def other(request):
+    return category_view(request, "other")

@@ -9,8 +9,8 @@ class CommentForm(forms.ModelForm):
 
         widgets = {
             'description': forms.Textarea(
-                attrs={'class': 'form-control', 'id': 't-area', 'rows': '2', 'placeholder': 'Enter ideas here!'}),
+                attrs={'class': 'form-control t-area', 'rows': '2', 'placeholder': 'Enter ideas here!'}),
             'display_name': forms.Textarea(
-                attrs={'class': 'form-control', 'id': 't-area', 'rows': '1', 'placeholder': 'Give it a name'}),
+                attrs={'class': 'form-control t-area', 'rows': '1', 'placeholder': 'Give it a name'}),
             'favorite': forms.CheckboxInput(attrs={'class': 'checkbox-round'})
         }

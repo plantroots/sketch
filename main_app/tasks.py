@@ -46,7 +46,7 @@ def encode_video(original_name):
 
     # .webm to .mp4 + audio fades
     subprocess.call(
-        f"ffmpeg -i {originals_path}{original_name} -filter_complex 'afade=d=2, areverse, afade=d=4, areverse' {encoded_path}{original_name}_one.mp4",
+        f"ffmpeg -i {originals_path}{original_name} -filter_complex 'afade=d=2, areverse, afade=d=4, areverse' {encoded_path}{original_name}_fades.mp4",
         shell=True)
 
     # move original file
@@ -54,21 +54,21 @@ def encode_video(original_name):
 
     # audio filtering 200hz - 6000hz
     subprocess.call(
-        f"ffmpeg -i {encoded_path}{original_name}_one.mp4 -af 'highpass=f=200, lowpass=f=6000' {encoded_path}{original_name}_two.mp4",
+        f"ffmpeg -i {encoded_path}{original_name}_fades.mp4 -af 'highpass=f=200, lowpass=f=6000' {encoded_path}{original_name}_filtered.mp4",
         shell=True)
 
     # deleting intermediary file
-    os.remove(f"{encoded_path}{original_name}_one.mp4")
+    os.remove(f"{encoded_path}{original_name}_fades.mp4")
 
     encoded_file_name = file_name + '_final.mp4'
 
     # audio normalizing
     subprocess.call(
-        f"ffmpeg-normalize {encoded_path}{original_name}_two.mp4 -o {encoded_path}{encoded_file_name} -c:a aac -b:a 192k",
+        f"ffmpeg-normalize {encoded_path}{original_name}_filtered.mp4 -o {encoded_path}{encoded_file_name} -c:a aac -b:a 192k",
         shell=True)
 
     # deleting intermediary file
-    os.remove(f"{encoded_path}{original_name}_two.mp4")
+    os.remove(f"{encoded_path}{original_name}_filtered.mp4")
 
     wav_file_name = file_name + '.wav'
 
@@ -98,7 +98,7 @@ def encode_video(original_name):
     # mapping the notes
     df['note'] = df['frequency'].apply(pitch)
 
-    # do something with the data
+    # Store to DB
     notes_series = df.note.value_counts(normalize=True).head(5)
     notes_dict = notes_series.to_dict()
 
@@ -110,7 +110,7 @@ def encode_video(original_name):
 
 @app.task
 def scan(f):
-    mypath = os.path.join(STATIC_DIR, "sounds", "")
+    sounds_path = os.path.join(STATIC_DIR, "sounds", "")
     originals_path = os.path.join(STATIC_DIR, "sounds", "originals", "")
 
     def remove_num(my_string):
@@ -122,7 +122,7 @@ def scan(f):
     def percentages(value):
         return value / len(all_the_notes) * 100
 
-    y, sr = librosa.load(f"{mypath + f}")
+    y, sr = librosa.load(f"{sounds_path + f}")
 
     # Tempo tracking
     tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
@@ -136,20 +136,20 @@ def scan(f):
         fundamental_notes.append(librosa.hz_to_note(freq))
 
     all_the_notes = list(map(remove_num, fundamental_notes))
-    d1 = Counter(all_the_notes)
+    notes_dict = Counter(all_the_notes)
 
     # Calculating Percentages and Sorting
-    d2 = dict((k, round(percentages(v), 2)) for k, v in d1.items())
-    notes_ls = sorted(d2.items(), key=lambda x: x[1], reverse=True)
+    rounded_notes = dict((k, round(percentages(v), 2)) for k, v in notes_dict.items())
+    sorted_notes = sorted(rounded_notes.items(), key=lambda x: x[1], reverse=True)
 
     # Removing musical sharp sign to avoid DB storing problems
-    new_ls = []
-    for (a, b) in notes_ls:
-        new_ls.append((a.replace("♯", "#"), b))
+    notes_list = []
+    for (a, b) in sorted_notes:
+        notes_list.append((a.replace("♯", "#"), b))
 
     # Registering the final data
     Song.objects.get_or_create(filename=f, duration=round(librosa.get_duration(y)),
-                               tempo=round(tempo, 2), notes=json.dumps(new_ls[:3]))
+                               tempo=round(tempo, 2), notes=json.dumps(notes_list[:3]))
 
     # Moving songs to 'originals' folder
-    os.rename(f"{mypath}{f}", f"{originals_path}{f}")
+    os.rename(f"{sounds_path}{f}", f"{originals_path}{f}")
