@@ -70,7 +70,7 @@ def encode_video(original_name):
     # deleting intermediary file
     os.remove(f"{encoded_path}{original_name}_filtered.mp4")
 
-    wav_file_name = file_name + '.wav'
+    wav_file_name = file_name + '_final' + '.wav'
 
     # REGISTER FILE NAMES
     Video.objects.get_or_create(name=encoded_file_name)
@@ -87,7 +87,7 @@ def encode_video(original_name):
     subprocess.call(f"crepe {audio_path}{wav_file_name}", shell=True)
     os.remove(f"{audio_path}{wav_file_name}")
 
-    csv_file_name = file_name + '.f0.csv'
+    csv_file_name = file_name + '_final.f0.csv'
 
     # Read CSV
     df = pd.read_csv(f"{csv_path}{csv_file_name}")
