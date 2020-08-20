@@ -56,7 +56,7 @@ def delete_video(request, id):
     csv_path = os.path.join(AUDIO_DIR, "Originals", "")
 
     # deleting csv
-    os.remove(f"{csv_path}{video.name.split('_final')[0] + '.f0.csv'}")
+    os.remove(f"{csv_path}{video.name.split('_final')[0] + '_final.f0.csv'}")
 
     # deleting from DB
     Video.objects.filter(id=id).delete()

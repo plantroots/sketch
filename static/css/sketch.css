@@ -159,8 +159,8 @@ textarea {
 }
 
 .t-area {
-    background: black;
-    color: #b8cc52d1;
+    background: black !important;
+    color: #b8cc52d1 !important;
 }
 
 #submit {
