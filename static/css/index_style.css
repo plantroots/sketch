@@ -16,6 +16,15 @@ p {
     color: #ffa500c9;
 }
 
+ul {
+    list-style-type: none;
+}
+
+ol li {
+    float: left;
+    width: 25%;
+}
+
 li {
     color: white;
 }
@@ -23,6 +32,10 @@ li {
 video {
     border: 1px solid black;
     border-radius: 3px;
+}
+
+img {
+    border-radius: 10%;
 }
 
 a {
@@ -41,6 +54,10 @@ a:visited:hover {
     color: #d5ff00d1;
 }
 
+textarea {
+    color: orange;
+}
+
 .nav-item {
     margin-left: 15px;
 }
@@ -52,26 +69,20 @@ a:visited:hover {
     margin-right: 10px;
 }
 
-/* change the background color */
+/* change the background color of the navbar */
 .navbar-custom {
     background-color: #345955db;
     border-radius: 2px;
 }
 
-/* change the brand and text color */
+/* change the brand and text color of the navbar */
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
     color: #d5ff00d1;
 }
 
-/* change the link color */
+/* change the link color of the navbar */
 .navbar-custom .navbar-nav .nav-link {
-    color: #b8cc52d1;
-}
-
-.footer {
-    background-color: #345955db;
-    border-radius: 2px;
     color: #b8cc52d1;
 }
 
@@ -79,44 +90,10 @@ a:visited:hover {
     background-color: #d5ff00d1;
 }
 
-#t-area {
-    background: black;
-    color: #b8cc52d1;
-}
-
-#submit, #back {
-    float: right;
-}
-
-#submit-container {
-    margin-top: -30px;
-}
-
-#video-container {
-    padding-left: 0;
-}
-
-#details-container {
-    padding-right: 0;
-}
-
-/* float & allow room for the widest item */
-ol li {
-    float: left;
-    width: 25%;
-}
-
-/* stop the float */
-#list_br {
-    clear: left;
-}
-
-/* separate the list from subsequent markup */
-.wrapper {
-    margin-bottom: 1em;
-}
-
 .footer {
+    background-color: #345955db;
+    border-radius: 2px;
+    color: #b8cc52d1;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -126,29 +103,18 @@ ol li {
     margin-bottom: 10px;
 }
 
-#submit {
-    color: orange;
-}
-
-#submit:hover {
-    color: #d5ff00d1;
+.wrapper {
+    margin-bottom: 1em;
 }
 
 .my-4 {
     background: orange;
 }
 
-textarea {
-    color: orange;
-}
 
 .form-group select {
     background: black;
     color: #b8cc52d1;
-}
-
-#delete {
-    color: white;
 }
 
 .checkbox-round {
@@ -187,6 +153,14 @@ textarea {
     color: #b8cc52d1;
 }
 
+#submit {
+    color: orange;
+}
+
+#submit:hover {
+    color: #d5ff00d1;
+}
+
 #scan-btn {
     margin-right: 10px;
 }
@@ -197,9 +171,11 @@ textarea {
     margin-top: 30px;
     margin-bottom: 30px;
 }
-ul {
-    list-style-type: none;
+
+#list-br {
+    clear: left;
 }
+
 #span-song-one {
     color: #ffa5009e;
 }
@@ -208,6 +184,27 @@ ul {
     color: #838e49a6;
 }
 
-img {
-    border-radius: 10%;
+#delete {
+    color: white;
+}
+
+#t-area {
+    background: black;
+    color: #b8cc52d1;
+}
+
+#submit, #back {
+    float: right;
+}
+
+#submit-container {
+    margin-top: -30px;
+}
+
+#video-container {
+    padding-left: 0;
+}
+
+#details-container {
+    padding-right: 0;
 }

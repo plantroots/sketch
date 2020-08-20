@@ -14,7 +14,7 @@
 
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-custom navbar-light" id="nav_radius">
+    <nav class="navbar navbar-expand-lg navbar-custom navbar-light">
 
         <a class="navbar-brand" href="{% url 'index' %}"><strong>SKETCH</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -46,7 +46,8 @@
                     {% if albums %}
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             {% for album in albums %}
-                            <a class="dropdown-item" href="{{ root_url }}/albums/{{ album.id }}">{{ album.name }}</a>
+                                <a class="dropdown-item"
+                                   href="{{ root_url }}/albums/{{ album.id }}">{{ album.name }}</a>
                             {% endfor %}
                         </div>
                     {% endif %}
@@ -81,7 +82,7 @@
                         </li>
                     {% endfor %}
                 </ol>
-                <br id="list_br">
+                <br id="list-br">
             </div>
         {% else %}
             <p>NO VIDEOS FOUND</p>
