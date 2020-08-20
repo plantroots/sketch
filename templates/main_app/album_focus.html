@@ -15,8 +15,8 @@
                         {% for song in songs %}
 
                             <li><a href="{{ root_url }}/static/sounds/originals/{{ song.filename }}" target="_blank"
-                                   rel="noopener noreferrer">{{ song.filename|display_album_name }}</a> <span
-                                    class="span-song-details">--> {{ song.tempo|floatformat:"0" }} bpm --> {{ song.duration|get_min }}</span>
+                                   rel="noopener noreferrer">{{ song.filename|display_song_name }}</a> <span
+                                    class="span-song-details">--> {{ song.tempo|floatformat:"0" }} bpm --> {{ song.duration|get_minutes }}</span>
                                 <span class="span-song-notes"> --> {{ song.notes|display_notes_song }}</span>
                             </li>
                         {% endfor %}

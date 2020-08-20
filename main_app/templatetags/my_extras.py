@@ -1,24 +1,29 @@
 import json
 from datetime import timedelta
+from os.path import splitext
 
 from django import template
 
 register = template.Library()
 
-# TODO: rename to get_minutes
-# TODO: only split the hour when it's 00
-@register.filter(name="get_min")
-def get_min(value):
-    conversion = timedelta(seconds=value)
-    return str(conversion)[2:]
 
-# TODO: exclude the file extension in a more generic way
-# TODO: exclude the band name in a more generic way (replace Theory of Mind)
-@register.filter(name="display_album_name")
-def display_album_name(value):
-    value = value[:-4]
+@register.filter(name="get_minutes")
+def get_minutes(value):
+    conversion = timedelta(seconds=value)
+    # if a song has less than an hour, show only the minutes
+    if str(conversion)[0] == "0":
+        return str(conversion)[2:]
+    else:
+        return str(conversion)
+
+
+@register.filter(name="display_song_name")
+def display_song_name(value):
+    # removing the extension from the filename
+    value = splitext(value)[0]
     result = ''.join([i for i in value if not i.isdigit() and i != '.'])
-    return result[17:]
+    result = result.replace("Theory of Mind - ", "")
+    return result
 
 
 @register.filter(name="display_video_name")

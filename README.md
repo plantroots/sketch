@@ -1,8 +1,10 @@
 # sketch
-General libraries:
-- redis
-- mysql
-- tensorflow
-- crepe
+Dependencies:
+- mysql-server
+- redis-server
 - ffmpeg
 - ffmpeg-normalize
+- tensorflow
+- crepe
+
+
