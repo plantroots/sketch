@@ -33,8 +33,8 @@ def display_video_name(value):
     return value.display_name or value.category or 'sketch'
 
 
-@register.filter(name="display_notes")
-def display_notes(value):
+@register.filter(name="display_notes_sketch")
+def display_notes_sketch(value):
     notes_dict = json.loads(value)
     notes_ls = [(k, round(v, 2)) for k, v in notes_dict.items()]
     sorted_by_second = sorted(notes_ls, key=lambda tup: tup[1], reverse=True)
