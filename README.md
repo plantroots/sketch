@@ -1,5 +1,5 @@
 # sketch
-Dependencies:
+General dependencies:
 - mysql-server
 - redis-server
 - ffmpeg
