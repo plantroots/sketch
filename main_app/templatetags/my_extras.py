@@ -28,7 +28,7 @@ def display_song_name(value):
 
 @register.filter(name="display_video_name")
 def display_video_name(value):
-    if (value.display_name and value.category):
+    if value.display_name and value.category:
         return value.display_name + ' - ' + value.category.name
     return value.display_name or value.category or 'sketch'
 
